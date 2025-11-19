@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cadastrar Problema - Natureza em Fluxo</title>
+    <link rel="stylesheet" href="../front-end/statics/style.css">
+    <link rel="icon" type="image/png" href="../front-end/statics/logo.png">
+    <form id="problemaForm" action="http://localhost:5000/salvar" method="POST">
+
+    <style>
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .header {
+            text-align: center;
+            margin-bottom: 30px;
+        }
+
+        .header h1 {
+            font-size: 2.5em;
+            margin-bottom: 10px;
+            text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+        }
+
+        .header p {
+            font-size: 1.2em;
+            opacity: 0.9;
+        }
+
+        .form-container {
+            background-color: rgba(171, 255, 161, 0.155);
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2);
+            border: 1px solid rgba(255, 255, 255, 0.18);
+        }
+
+        .form-group {
+            margin-bottom: 20px;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 8px;
+            color: #ffffffa9;
+            font-weight: bold;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .form-group input,
+        .form-group select,
+        .form-group textarea {
+            width: 100%;
+            padding: 12px;
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            border-radius: 8px;
+            background-color: rgba(255, 255, 255, 0.1);
+            color: #ffffff;
+            font-size: 16px;
+        }
+
+        .form-group textarea {
+            height: 120px;
+            resize: vertical;
+        }
+
+        .form-group input::placeholder,
+        .form-group textarea::placeholder {
+            color: rgba(255, 255, 255, 0.7);
+        }
+
+        .btn-submit {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.8), rgba(56, 142, 60, 0.9));
+            color: white;
+            padding: 20px 40px;
+            border: none;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 22px;
+            font-weight: bold;
+            width: 100%;
+            transition: all 0.4s ease;
+            box-shadow: 
+                0 6px 20px rgba(76, 175, 80, 0.3),
+                0 8px 25px rgba(0, 0, 0, 0.2),
+                inset 0 1px 0 rgba(255, 255, 255, 0.2);
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+            margin: 20px 0;
+        }
+
+        .btn-submit:hover {
+            background: linear-gradient(135deg, rgba(76, 175, 80, 0.9), rgba(56, 142, 60, 1));
+            transform: translateY(-5px) scale(1.02);
+            box-shadow: 
+                0 10px 25px rgba(76, 175, 80, 0.4),
+                0 15px 30px rgba(0, 0, 0, 0.25),
+                inset 0 1px 0 rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-submit:disabled {
+            background: rgba(128, 128, 128, 0.5);
+            cursor: not-allowed;
+            transform: none;
+        }
+
+        .back-link {
+            display: inline-block;
+            margin-top: 20px;
+            color: rgba(255, 255, 255, 0.8);
+            text-decoration: none;
+            padding: 10px 20px;
+            background-color: rgba(255, 255, 255, 0.1);
+            border-radius: 8px;
+            transition: background-color 0.3s;
+        }
+
+        .back-link:hover {
+            background-color: rgba(255, 255, 255, 0.2);
+        }
+
+        .form-section {
+            background-color: rgba(255, 255, 255, 0.1);
+            padding: 20px;
+            border-radius: 10px;
+            margin-bottom: 25px;
+            border-left: 4px solid rgba(76, 175, 80, 0.7);
+        }
+
+        .form-section h3 {
+            color: #fff;
+            margin-top: 0;
+            margin-bottom: 15px;
+            text-shadow: 1px 1px 2px rgba(0, 0, 0, 0.3);
+        }
+
+        .alert {
+            padding: 15px;
+            border-radius: 8px;
+            margin-bottom: 20px;
+            display: none;
+        }
+
+        .alert-success {
+            background-color: rgba(76, 175, 80, 0.3);
+            border: 1px solid rgba(76, 175, 80, 0.5);
+        }
+
+        .alert-error {
+            background-color: rgba(244, 67, 54, 0.3);
+            border: 1px solid rgba(244, 67, 54, 0.5);
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Cadastrar Problema Urbano</h1>
+            <p>Ajude-nos a identificar e resolver problemas na nossa cidade</p>
+        </div>
+
+        <div id="alert" class="alert"></div>
+
+        <div class="form-container">
+            <form id="problemaForm">
+                <div class="form-section">
+                    <h3>Informações Básicas</h3>
+                    <div class="form-group">
+                        <label for="tipo_problema">Tipo de Problema *</label>
+                        <select id="tipo_problema" name="tipo_problema" required>
+                            <option value="">Selecione o tipo de problema</option>
+                            <option value="entulho">Descarte Irregular de Entulho</option>
+                            <option value="lixo">Acúmulo de Lixo</option>
+                            <option value="poda">Poda de Árvores Necessária</option>
+                            <option value="buraco">Buraco na Via</option>
+                            <option value="iluminacao">Problema de Iluminação Pública</option>
+                            <option value="outros">Outros</option>
+                        </select>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="titulo">Título do Problema *</label>
+                        <input type="text" id="titulo" name="titulo" placeholder="Ex: Acúmulo de lixo na esquina" required>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Localização</h3>
+                    <div class="form-group">
+                        <label for="endereco">Endereço *</label>
+                        <input type="text" id="endereco" name="endereco" placeholder="Rua, número, complemento" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="bairro">Bairro *</label>
+                        <input type="text" id="bairro" name="bairro" placeholder="Nome do bairro" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="ponto_referencia">Ponto de Referência</label>
+                        <input type="text" id="ponto_referencia" name="ponto_referencia" placeholder="Ex: Próximo ao mercado, em frente à escola">
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Descrição Detalhada</h3>
+                    <div class="form-group">
+                        <label for="descricao">Descrição do Problema *</label>
+                        <textarea id="descricao" name="descricao" placeholder="Descreva com detalhes o problema encontrado..." required></textarea>
+                    </div>
+
+                    <div class="form-group">
+                        <label for="severidade">Nível de Urgência</label>
+                        <select id="severidade" name="severidade">
+                            <option value="baixa">Baixa</option>
+                            <option value="media" selected>Média</option>
+                            <option value="alta">Alta</option>
+                            <option value="urgente">Urgente</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-section">
+                    <h3>Informações Adicionais</h3>
+                    <div class="form-group">
+                        <label for="data_ocorrencia">Data em que observou o problema *</label>
+                        <input type="date" id="data_ocorrencia" name="data_ocorrencia" required>
+                    </div>
+
+                    <div class="form-group">
+                        <label>
+                            <input type="checkbox" id="anonimo" name="anonimo">
+                            Denúncia anônima
+                        </label>
+                    </div>
+                </div>
+
+                <button type="submit" class="btn-submit" id="submitBtn">Enviar Denúncia</button>
+            </form>
+
+            <a href="index.html" class="back-link">← Voltar para a página inicial</a>
+        </div>
+    </div>
+</body>
+</html>
